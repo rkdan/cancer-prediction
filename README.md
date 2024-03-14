@@ -1,1 +1,1 @@
-# cancer-prediction
+# Cancer prediction
