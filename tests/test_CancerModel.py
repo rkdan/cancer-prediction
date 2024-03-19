@@ -1,6 +1,6 @@
 import unittest
 
-from cancer_prediction import CancerModel
+from cancer_prediction.cancer_model import CancerModel
 
 
 class TestCancerModel(unittest.TestCase):
@@ -24,3 +24,6 @@ class TestCancerModel(unittest.TestCase):
         target = 1
         diagnosis = model.target_to_diagnosis(target)
         self.assertEqual(diagnosis, 'Benign')
+
+if __name__ == '__main__':
+    unittest.main()
