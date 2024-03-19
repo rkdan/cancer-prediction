@@ -6,3 +6,10 @@
 # Cancer prediction
 
 A package for predicting cancer.
+```mermaid
+graph TD;
+    A-->B;
+    A-->C;
+    B-->D;
+    C-->D;
+```
