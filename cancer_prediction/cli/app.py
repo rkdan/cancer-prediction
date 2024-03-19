@@ -1,15 +1,16 @@
 import sys
 
 import typer
-from cancer_prediction import streamlit_app
 from streamlit.web import cli as stcli
 
 app = typer.Typer()
+
 
 @app.command()
 def __version__():
     # Print the version of the app
     typer.echo("0.1.0")
+
 
 @app.command()
 def run():

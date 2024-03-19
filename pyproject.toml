@@ -5,6 +5,7 @@ description = "A basic model to predict cancerous tumors based on certain proper
 authors = ["Ryan Daniels <31715811+rkdan@users.noreply.github.com>"]
 license = "GPL-3.0-or-later"
 readme = "README.md"
+packages = [{include = "cancer_prediction"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -20,6 +21,13 @@ black = "^24.3.0"
 isort = "^5.13.2"
 flake8 = "^7.0.0"
 mypy = "^1.9.0"
+pre-commit = "^3.6.2"
+
+[tool.poetry.scripts]
+cancer-prediction = "cancer_prediction.cli:app"
+
+[tool.black]
+line-length = 88
 
 [build-system]
 requires = ["poetry-core"]
