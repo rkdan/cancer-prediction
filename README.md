@@ -6,16 +6,3 @@
 # Cancer prediction
 
 A package for predicting cancer.
-Workflow 1 - push to `dev`:
-```mermaid
-graph LR;
-    A[pre-commit checks]-->B[fast tests];
-```
-
-Workflow 2 - Merge PR to `main`:
-```mermaid
-graph LR;
-    A[pre-commit checks]-->B[fast tests];
-    B[fast tests]-->C[slow tests];
-    C[slow tests]-->D[publish];
-```
