@@ -1,0 +1,13 @@
+site_name: Cancer Prediction
+site_url: https://github.com/rkdan/cancer-prediction
+repo_url: https://github.com/rkdan/cancer-prediction
+nav:
+  - Home: index.md
+  - cancer-prediction:
+    - cancer model: cancer-prediction/cancer_model.md
+    - streamlit app: cancer-prediction/streamlit_app.md
+theme: readthedocs
+plugins:
+  - mkdocstrings
+watch:
+  - .  # reload docs for any file changes
