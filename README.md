@@ -9,13 +9,13 @@ A package for predicting cancer.
 Workflow 1 - push to `dev`:
 ```mermaid
 graph LR;
-    pre-commit checks-->fast tests;
+    'pre-commit checks'-->'fast tests';
 ```
 
 Workflow 2 - Merge PR to `main`:
 ```mermaid
 graph LR;
-    pre-commit checks-->fast tests;
-    fast tests-->slow tests;
-    slow tests-->publish;
+    'pre-commit checks'-->'f'ast tests';
+    'fast tests'-->'slow tests';
+    'slow tests'-->'publish';
 ```
