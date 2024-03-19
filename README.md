@@ -4,3 +4,5 @@
 ![Test status](https://github.com/rkdan/cancer-prediction/actions/workflows/tests.yml/badge.svg?branch=dev)
 
 # Cancer prediction
+
+A package for predicting cancer.

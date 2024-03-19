@@ -2,10 +2,11 @@
 name = "cancer-prediction"
 version = "0.1.0"
 description = "A basic model to predict cancerous tumors based on certain properties."
-authors = ["Ryan Daniels <31715811+rkdan@users.noreply.github.com>"]
+authors = ["Ryan Daniels"]
 license = "GPL-3.0-or-later"
 readme = "README.md"
 packages = [{include = "cancer_prediction"}]
+homepage = "https://github.com/rkdan/cancer-prediction"
 
 [tool.poetry.dependencies]
 python = "^3.10"
