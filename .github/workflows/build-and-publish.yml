@@ -1,0 +1,109 @@
+name: Build and Publish
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  pre-commit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install poetry
+        run: pipx install poetry
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+          cache: 'poetry'
+      - run: poetry install
+      - name: Run pre-commit checks
+        run: |
+          poetry run pre-commit run --all-files
+
+  tests:
+    needs: pre-commit
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install poetry
+        run: pipx install poetry
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+          cache: 'poetry'
+      - run: poetry install
+      - name: Run tests
+        run: |
+          poetry run python -m unittest discover tests/
+
+  release:
+    needs: tests
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Install Poetry
+        run: pipx install poetry
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+          cache: 'poetry'
+      - name: Install dependencies
+        run: poetry install
+      - name: Bump version
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          
+          # Get the commit message
+          commit_message=$(git log -1 --pretty=%B)
+          
+          # Determine the version bump type based on the commit message
+          if echo "$commit_message" | grep -q -i -E '^(break|major)\b'; then
+            version_type="major"
+          elif echo "$commit_message" | grep -q -i -E '^(feat|minor)\b'; then
+            version_type="minor"
+          else
+            version_type="patch"
+          fi
+          
+          # Bump the version using Poetry
+          poetry version $version_type
+          version=$(poetry version -s)
+          
+          git add pyproject.toml
+          git commit -m "Bump version to $version"
+          git push
+      - name: Build package
+        run: poetry build
+      - name: Get version from pyproject.toml
+        id: get_version
+        run: |
+          version=$(poetry version -s)
+          echo "::set-output name=version::$version"
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ steps.get_version.outputs.version }}
+          release_name: Release ${{ steps.get_version.outputs.version }}
+          body: Release ${{ steps.get_version.outputs.version }}
+      - name: Publish to TestPyPI
+        env:
+          POETRY_REPOSITORIES_TEST_PYPI_URL: https://test.pypi.org/legacy/
+        run: |
+          poetry config repositories.test-pypi https://test.pypi.org/legacy/
+          poetry publish -r test-pypi -u __token__ -p ${{ secrets.TEST_PYPI_API_TOKEN }}
