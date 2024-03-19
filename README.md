@@ -5,4 +5,4 @@
 
 # Cancer prediction
 
-A package for predicting cancer.
+A package for predicting cancer from tumor properties.
