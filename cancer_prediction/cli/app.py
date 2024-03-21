@@ -1,5 +1,6 @@
 import sys
 
+import toml
 import typer
 from streamlit.web import cli as stcli
 
@@ -7,9 +8,10 @@ app = typer.Typer()
 
 
 @app.command()
-def __version__():
-    # Print the version of the app
-    typer.echo("0.1.0")
+def version():
+    # get version of app
+    pyproject = toml.load("pyproject.toml")
+    typer.echo(pyproject["tool"]["poetry"]["version"])
 
 
 @app.command()

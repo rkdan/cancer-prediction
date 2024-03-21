@@ -133,7 +133,7 @@ class CancerModel:
 
     def accuracy(
         self, X: np.ndarray | pd.DataFrame, y: np.ndarray | pd.DataFrame
-    ) -> float:
+    ) -> float | np.ndarray:
         """Calculate the accuracy of the model on the given data.
 
         Args:
